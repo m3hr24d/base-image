@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -e
+
+DEBUG=${DEBUG:-false}
+[[ "$DEBUG" == true ]] && set -x
+
+loadEnvironments() {
+    env >> /etc/envvars
+    source /etc/envvars
+
+    echo '==> Starting load all environments, added with "set-env" command'
+    echo -n > ${ENVIRONMENTS_SCRIPT}
+
+    # Load environments from env command
+    for ENV in `env`
+    do
+        local ENV_NAME=`expr match "$ENV" '\(\w*\)='`
+        local ENV_VALUE=`expr match "$ENV" '\w*=\(.*\)'`
+
+        set-env ${ENV_NAME} ${ENV_VALUE}
+    done
+
+    for ENVIRONMENT in ${ENVIRONMENTS_DIR}/*
+    do
+        # Load env for enabled runit services
+        for SERVICE in /service/*
+        do
+            mkdir -p ${SERVICE}/env
+            ln -sf ${ENVIRONMENT} ${SERVICE}/env
+        done
+
+        # Create environments.sh
+        if [ -e "$ENVIRONMENT" ]; then
+            ENVIRONMENT_NAME=`basename "$ENVIRONMENT"`
+            ENVIRONMENT_VALUE=`cat ${ENVIRONMENT}`
+
+            declare -A IGNORE_ENVIRONMENTS
+            IGNORE_ENVIRONMENTS=([HOME]=1 [USER]=1 [GROUP]=1 [UID]=1 [GID]=1 [SHELL]=1)
+
+            if [[ ${IGNORE_ENVIRONMENTS[${ENVIRONMENT_NAME}]} ]]; then
+                continue
+            fi
+
+            echo "==> Load: $ENVIRONMENT_NAME"
+            echo "export $ENVIRONMENT_NAME=$ENVIRONMENT_VALUE" >> ${ENVIRONMENTS_SCRIPT}
+        fi
+    done
+}
+
+case ${1} in
+    app:start)
+        loadEnvironments
+
+        exec /sbin/runit-init
+        ;;
+    app:help)
+        echo 'Available options:'
+        echo ' app:start        - Starts and monitors a collection of runit services'
+        echo ' app:help         - Displays the help'
+        echo ' [command]        - Execute the specified command, eg. bash.'
+        ;;
+    *)
+        exec "$@"
+        ;;
+esac

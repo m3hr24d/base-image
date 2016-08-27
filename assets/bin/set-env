@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -eu
+
+USAGE='Usage:\nset-env ENV_NAME [ENV_VALUE]';
+ENV_NAME=${1:-}; shift
+ENV_VALUE=${@:-}
+
+if [[ "$#" -eq 0 ]]
+then
+    echo -e ${USAGE}
+    exit 1
+fi
+
+# Add or update environment
+echo -n ${ENV_VALUE} > ${ENVIRONMENTS_DIR}/${ENV_NAME}

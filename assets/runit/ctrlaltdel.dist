@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+set -eu
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MESSAGE='System is going down in 5 seconds...'
+
+echo ${MESSAGE} | wall
+sleep 5

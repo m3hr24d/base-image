@@ -1,0 +1,35 @@
+# Sets the maximum file size of current when svlogd should rotate the current log file to size bytes.
+# Default is 1000000. If size is zero, svlogd doesn’t rotate log files.
+# You should set size to at least (2 * len).
+s1000000
+
+# Sets the number of old log files svlogd should maintain to num.
+# If svlogd sees more that num old log files in log after log file rotation,
+# it deletes the oldest one. Default is 10. If num is zero, svlogd doesn’t remove old log files.
+n0
+
+# Sets the maximum age of the current log file when svlogd should rotate the current
+# log file to timeout seconds. If current is timeout seconds old, and is not empty,
+# svlogd forces log file rotation.
+#ttimeout
+
+# Tells svlogd to feed each recent log file through processor (see above) on log
+# file rotation. By default log files are not processed.
+#!processor
+
+# Tells svlogd to transmit the first len characters of selected log messages to
+# the IP address a.b.c.d, port number port. If port isn’t set, the default port
+# for syslog is used (514). len can be set through the -l option, see below.
+# If svlogd has trouble sending udp packets, it writes error messages to the
+# log directory. Attention: logging through udp is unreliable, and should be
+# used in private networks only.
+#ua.b.c.d[:port]
+
+# Is the same as the u line above, but the log messages are no longer written to
+# the log directory, but transmitted through udp only. Error messages from
+# svlogd concerning sending udp packages still go to the log directory.
+#Ua.b.c.d[:port]
+
+# Tells svlogd to prefix each line to be written to the log directory,
+# to standard error, or through UDP, with prefix.
+#pprefix

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -eu
+
+USAGE='Usage:\nexec-as-user USERNAME COMMAND';
+USERNAME=${1:-}; shift
+COMMAND=${@:-}
+
+if [[ "$#" -ne 2 ]]; then
+    echo -e ${USAGE}
+    exit 1
+fi
+
+if [[ $(whoami) == ${USERNAME} ]]; then
+        $@
+    else
+        sudo -HEu ${USERNAME} "$COMMAND"
+fi

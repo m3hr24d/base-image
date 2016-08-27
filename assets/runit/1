@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+set -eu
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+chmod 100 /etc/runit/stopit
+
+/bin/run-parts --verbose --exit-on-error /etc/runit/1.d || exit 100
