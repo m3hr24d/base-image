@@ -28,6 +28,7 @@ mkdir -p ${TINYDNS_SERVICE_DIRECTORY}/log
 touch ${TINYDNS_SERVICE_DIRECTORY}/log/run
 chmod +x ${TINYDNS_SERVICE_DIRECTORY}/log/run
 
+echo "$TINYDNS_SERVICE_DIRECTORY/root" > /etc/tinydns/env/ROOT 
 cp -ar /etc/tinydns/root ${TINYDNS_SERVICE_DIRECTORY}/
 cp -ar /etc/tinydns/env ${TINYDNS_SERVICE_DIRECTORY}/
 rm -rf /package /etc/tinydns
