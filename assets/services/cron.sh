@@ -20,6 +20,7 @@ exec 2>&1
 
 DAEMON=/usr/sbin/cron
 USER=root
+EXTRA_OPTS=${EXTRA_OPTS:-}
 
 test -x ${DAEMON} || exit 0
 
