@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
-set -eu
+set -eu 
 
 USAGE='Usage:\nexec-as-user USERNAME COMMAND';
 USERNAME=${1:-}; shift
 COMMAND=${@:-}
+USER_SHELL=${USER_SHELL:-}
+RUNUSER_OPTS=''
 
 if [[ "$#" -lt 1 ]]; then
     echo -e ${USAGE}
     exit 1
 fi
 
+if [[ -e "$USER_SHELL" ]]; then
+    RUNUSER_OPTS="$RUNUSER_OPTS --shell $USER_SHELL"
+fi
+
 if [[ $(whoami) == ${USERNAME} ]]; then
         $@
     else
-        runuser --login ${USERNAME} --command "$COMMAND"
+        runuser --login ${USERNAME} ${RUNUSER_OPTS} --command "$COMMAND"
 fi
