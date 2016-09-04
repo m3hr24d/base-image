@@ -14,7 +14,9 @@ ARG INSTALL_GEARMAN=false
 ARG INSTALL_TINYDNS=false
 ARG DEBUG=false
 
-ENV ENVIRONMENTS_DIR=/etc/stuff/environments \
+ENV SERVICE_AVAILABLE_DIR=/etc/runit/service \
+    SERVICE_ENABLED_DIR=/service \
+    ENVIRONMENTS_DIR=/etc/stuff/environments \
     ENVIRONMENTS_SCRIPT=/etc/stuff/environments.sh
 
 ADD ./assets /build
