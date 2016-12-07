@@ -28,7 +28,8 @@ useradd --system --comment='Gearman Job Server' --home-dir=/var/lib/gearman --us
 rm -rf /${GEARMAN_PKG_NAME}
 rm -f /${GEARMAN_PKG_NAME}.tar.gz
 
-mkdir -p ${GEARMAN_SERVICE_DIRECTORY}
+# Create service and env directories
+mkdir -p ${GEARMAN_SERVICE_DIRECTORY}/env
 touch ${GEARMAN_SERVICE_DIRECTORY}/run
 chmod +x ${GEARMAN_SERVICE_DIRECTORY}/run
 
@@ -50,3 +51,8 @@ EOF
 # Enable gearman service
 ln -s ${GEARMAN_SERVICE_DIRECTORY} ${SERVICE_ENABLED_DIR}
 cp -r ${SERVICE_AVAILABLE_DIR}/skeleton/log ${GEARMAN_SERVICE_DIRECTORY}
+
+if [[ "$DISABLE_AUTO_START_SERVICES" == true ]]; then
+    touch ${GEARMAN_SERVICE_DIRECTORY}/down
+    touch ${GEARMAN_SERVICE_DIRECTORY}/log/down
+fi

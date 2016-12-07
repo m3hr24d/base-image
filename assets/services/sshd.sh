@@ -8,7 +8,8 @@ SSHD_SERVICE_DIRECTORY=${SERVICE_AVAILABLE_DIR}/sshd
 
 DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server
 
-mkdir -p ${SSHD_SERVICE_DIRECTORY}
+# Create service and env directories
+mkdir -p ${SSHD_SERVICE_DIRECTORY}/env
 touch ${SSHD_SERVICE_DIRECTORY}/run
 chmod +x ${SSHD_SERVICE_DIRECTORY}/run
 
@@ -48,3 +49,8 @@ rm -rf /etc/ssh/ssh_host_*_key /etc/ssh/ssh_host_*_key.pub
 # Enable nginx service
 ln -s ${SSHD_SERVICE_DIRECTORY} ${SERVICE_ENABLED_DIR}
 cp -r ${SERVICE_AVAILABLE_DIR}/skeleton/log ${SSHD_SERVICE_DIRECTORY}
+
+if [[ "$DISABLE_AUTO_START_SERVICES" == true ]]; then
+    touch ${SSHD_SERVICE_DIRECTORY}/down
+    touch ${SSHD_SERVICE_DIRECTORY}/log/down
+fi

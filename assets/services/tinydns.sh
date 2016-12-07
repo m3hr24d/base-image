@@ -19,8 +19,8 @@ useradd --system --comment='TinyDns' --home-dir /var/lib/tinydns --no-create-hom
 useradd --system --comment='DnsLog' --home-dir /var/lib/dnslog --no-create-home --user-group --shell /bin/false dnslog
 tinydns-conf tinydns dnslog /etc/tinydns 0.0.0.0
 
-# Create Tinydns service directory
-mkdir -p ${TINYDNS_SERVICE_DIRECTORY}
+# Create service and env directories
+mkdir -p ${TINYDNS_SERVICE_DIRECTORY}/env
 touch ${TINYDNS_SERVICE_DIRECTORY}/run
 chmod +x ${TINYDNS_SERVICE_DIRECTORY}/run
 
@@ -67,3 +67,8 @@ EOF
 
 # Enable tinydns service
 ln -s ${TINYDNS_SERVICE_DIRECTORY} ${SERVICE_ENABLED_DIR}
+
+if [[ "$DISABLE_AUTO_START_SERVICES" == true ]]; then
+    touch ${TINYDNS_SERVICE_DIRECTORY}/down
+    touch ${TINYDNS_SERVICE_DIRECTORY}/log/down
+fi

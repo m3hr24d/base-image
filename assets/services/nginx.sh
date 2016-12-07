@@ -8,7 +8,8 @@ NGINX_SERVICE_DIRECTORY=${SERVICE_AVAILABLE_DIR}/nginx
 
 DEBIAN_FRONTEND=noninteractive apt-get install -y nginx
 
-mkdir -p ${NGINX_SERVICE_DIRECTORY}
+# Create service and env directories
+mkdir -p ${NGINX_SERVICE_DIRECTORY}/env
 touch ${NGINX_SERVICE_DIRECTORY}/run
 chmod +x ${NGINX_SERVICE_DIRECTORY}/run
 
@@ -31,3 +32,8 @@ EOF
 # Enable nginx service
 ln -s ${NGINX_SERVICE_DIRECTORY} ${SERVICE_ENABLED_DIR}
 cp -r ${SERVICE_AVAILABLE_DIR}/skeleton/log ${NGINX_SERVICE_DIRECTORY}
+
+if [[ "$DISABLE_AUTO_START_SERVICES" == true ]]; then
+    touch ${NGINX_SERVICE_DIRECTORY}/down
+    touch ${NGINX_SERVICE_DIRECTORY}/log/down
+fi

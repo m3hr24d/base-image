@@ -2,6 +2,7 @@ NAME?=dockerzone/debian-base-image
 VERSION=
 DEBUG?=false
 APT_CACHER_SERVER?=
+DISABLE_AUTO_START_SERVICES?=false
 INSTALL_SSHD?=false
 INSTALL_CRON?=false
 INSTALL_SYSLOG_NG?=true
@@ -20,6 +21,7 @@ build: guard-NAME guard-VERSION
 	docker build --force-rm -t $(NAME):$(VERSION) \
 	--build-arg=APT_CACHER_SERVER=$(APT_CACHER_SERVER) \
 	--build-arg=DEBUG=$(DEBUG) \
+	--build-arg=DISABLE_AUTO_START_SERVICES=$(DISABLE_AUTO_START_SERVICES) \
 	--build-arg=INSTALL_SSHD=$(INSTALL_SSHD) \
 	--build-arg=INSTALL_CRON=$(INSTALL_CRON) \
 	--build-arg=INSTALL_SYSLOG_NG=$(INSTALL_SYSLOG_NG) \

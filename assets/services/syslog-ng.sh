@@ -8,7 +8,8 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y syslog-ng-core
 
 SYSLOG_NG_SERVICE_DIRECTORY=${SERVICE_AVAILABLE_DIR}/syslog-ng
 
-mkdir -p ${SYSLOG_NG_SERVICE_DIRECTORY}
+# Create service and env directories
+mkdir -p ${SYSLOG_NG_SERVICE_DIRECTORY}/env
 touch ${SYSLOG_NG_SERVICE_DIRECTORY}/run
 chmod +x ${SYSLOG_NG_SERVICE_DIRECTORY}/run
 
@@ -37,3 +38,7 @@ EOF
 
 # Enable syslog-ng service
 ln -s ${SYSLOG_NG_SERVICE_DIRECTORY} ${SERVICE_ENABLED_DIR}
+
+if [[ "$DISABLE_AUTO_START_SERVICES" == true ]]; then
+    touch ${SYSLOG_NG_SERVICE_DIRECTORY}/down
+fi

@@ -10,7 +10,8 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor
 
 sed -i 's#logfile=/var/log/supervisor/supervisord.log#;logfile=/var/log/supervisor/supervisord.log#g' /etc/supervisor/supervisord.conf
 
-mkdir -p ${SUPERVISOR_SERVICE_DIRECTORY}
+# Create service and env directories
+mkdir -p ${SUPERVISOR_SERVICE_DIRECTORY}/env
 touch ${SUPERVISOR_SERVICE_DIRECTORY}/run
 chmod +x ${SUPERVISOR_SERVICE_DIRECTORY}/run
 
@@ -38,3 +39,8 @@ EOF
 # Enable supervisor service
 ln -s ${SUPERVISOR_SERVICE_DIRECTORY} ${SERVICE_ENABLED_DIR}
 cp -r ${SERVICE_AVAILABLE_DIR}/skeleton/log ${SUPERVISOR_SERVICE_DIRECTORY}
+
+if [[ "$DISABLE_AUTO_START_SERVICES" == true ]]; then
+    touch ${SUPERVISOR_SERVICE_DIRECTORY}/down
+    touch ${SUPERVISOR_SERVICE_DIRECTORY}/log/down
+fi

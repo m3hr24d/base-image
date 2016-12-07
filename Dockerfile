@@ -5,6 +5,7 @@ STOPSIGNAL SIGCONT
 LABEL Description='A minimal Debian base image modified for Docker'
 
 ARG APT_CACHER_SERVER=''
+ARG DISABLE_AUTO_START_SERVICES=false
 ARG INSTALL_SSHD=false
 ARG INSTALL_CRON=false
 ARG INSTALL_SYSLOG_NG=true
