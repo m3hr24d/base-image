@@ -18,7 +18,8 @@ ARG DEBUG=false
 ENV SERVICE_AVAILABLE_DIR=/etc/runit/service \
     SERVICE_ENABLED_DIR=/service \
     ENVIRONMENTS_DIR=/etc/stuff/environments \
-    ENVIRONMENTS_SCRIPT=/etc/stuff/environments.sh
+    ENVIRONMENTS_SCRIPT=/etc/stuff/environments.sh \
+    ENVIRONMENTS_ENV_FILE=/etc/stuff/.env
 
 ADD ./assets /build
 RUN chmod -R 755 /build/* \

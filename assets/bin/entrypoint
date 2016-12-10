@@ -10,6 +10,7 @@ loadEnvironments() {
 
     echo '==> Starting load all environments, added with "set-env" command'
     echo -n > ${ENVIRONMENTS_SCRIPT}
+    echo -n > ${ENVIRONMENTS_ENV_FILE}
 
     # Load environments from env command
     for ENV in `env`
@@ -23,7 +24,7 @@ loadEnvironments() {
     for ENVIRONMENT in ${ENVIRONMENTS_DIR}/*
     do
         # Load env for enabled runit services
-        for SERVICE in /service/*
+        for SERVICE in ${SERVICE_ENABLED_DIR}/*
         do
             mkdir -p ${SERVICE}/env
             ln -sf ${ENVIRONMENT} ${SERVICE}/env
@@ -35,7 +36,7 @@ loadEnvironments() {
             ENVIRONMENT_VALUE=`cat ${ENVIRONMENT}`
 
             declare -A IGNORE_ENVIRONMENTS
-            IGNORE_ENVIRONMENTS=([HOME]=1 [USER]=1 [GROUP]=1 [UID]=1 [GID]=1 [SHELL]=1)
+            IGNORE_ENVIRONMENTS=([HOME]=1 [USER]=1 [GROUP]=1 [UID]=1 [GID]=1 [SHELL]=1 [SHLVL]=1 [TERM]=1 [PWD]=1 [_]=1 [PATH]=1 [HOSTNAME]=1)
 
             if [[ ${IGNORE_ENVIRONMENTS[${ENVIRONMENT_NAME}]} ]]; then
                 continue
@@ -43,6 +44,7 @@ loadEnvironments() {
 
             echo "==> Load: $ENVIRONMENT_NAME"
             echo "export $ENVIRONMENT_NAME=$ENVIRONMENT_VALUE" >> ${ENVIRONMENTS_SCRIPT}
+            echo "$ENVIRONMENT_NAME=$ENVIRONMENT_VALUE" >> ${ENVIRONMENTS_ENV_FILE}
         fi
     done
 }
