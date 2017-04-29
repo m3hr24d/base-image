@@ -4,7 +4,7 @@ MAINTAINER Mohammad Abdoli Rad <m.abdolirad@gmail.com>
 STOPSIGNAL SIGCONT
 LABEL Description='A minimal Debian base image modified for Docker'
 
-ARG APT_CACHER_SERVER='192.168.11.9'
+ARG APT_CACHER_SERVER=''
 ARG DISABLE_AUTO_START_SERVICES=false
 ARG INSTALL_SSHD=true
 ARG INSTALL_CRON=true
