@@ -24,6 +24,7 @@ ENV SERVICE_AVAILABLE_DIR=/etc/runit/service \
 ADD ./assets /build
 RUN chmod -R 755 /build/* \
     && mv /build/bin/* /sbin \
+    && rm -rf /etc/runit/ \
     && mv /build/runit /etc \
     && mkdir -p /etc/runit/1.d
 
