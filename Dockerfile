@@ -1,4 +1,4 @@
-FROM dockerzone/debian:latest
+FROM dockage/debian:latest
 MAINTAINER Mohammad Abdoli Rad <m.abdolirad@gmail.com>
 
 STOPSIGNAL SIGCONT
