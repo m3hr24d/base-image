@@ -1,4 +1,4 @@
-FROM dockage/debian:latest
+FROM dockage/debian-runit:latest
 MAINTAINER Mohammad Abdoli Rad <m.abdolirad@gmail.com>
 
 STOPSIGNAL SIGCONT
